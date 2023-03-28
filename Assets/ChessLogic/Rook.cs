@@ -10,7 +10,7 @@ public class Rook : Pieces
         pieceWorth = 5;
     }
 
-    public void rookRules(Vector3 tilePos, Board boardScript)
+   /* public void rookRules(Vector3 tilePos, Board boardScript)
     {
         Debug.Log("Rook Rules");
 
@@ -113,17 +113,127 @@ public class Rook : Pieces
         if (!pieceAtPos)
         {
             boardScript.setCurrentMoveValid(true);
-            /*//check colour
+            //check colour
             Pieces[,] chessArray = boardScript.getChessArray();
             Pieces p = chessArray[x, i];
             if (p.team == rookScipt.team) 
             {
                 boardScript.setCurrentMoveValid(false);
                 //Debug.Log("this here");
-            }*/
+        /*    }
         }
 
         return false;
+    }*/
+
+
+  /*  public void rookRules(Vector3 tilePos, Board boardScript)
+    {
+    Debug.Log("Rook Rules");
+
+        //[x, z++] , [x, z--] , [x++, z] , [x--, z]
+
+        //check all tiles from piece to tile location
+        int tileX = (int)tilePos.x; int tileZ = (int)tilePos.z;
+        Rook rookScipt = boardScript.getCurrentPiece().GetComponent<Rook>();
+
+        int x = (rookScipt.currentXPos);
+        int z = (rookScipt.currentZPos);
+        bool forwardOrBack, blocked;
+
+        boardScript.setCurrentMoveValid(true);
+
+        if(tileZ == z)
+        {
+            
+        }
+        else if(tileX == x)
+        {
+            
+        }
+        else
+        {
+            boardScript.setCurrentMoveValid(false);
+        }
+    }*/
+
+
+
+    /* public void rookRules(Vector3 tilePos, Board boardScript)
+    {
+    //check all tiles from piece to tile location
+        int tileX = (int)tilePos.x; int tileZ = (int)tilePos.z;
+        Rook rookScipt = boardScript.getCurrentPiece().GetComponent<Rook>();
+
+        boardScript.setCurrentMoveValid(false);
+
+        int x = (rookScipt.currentXPos);
+        int z = (rookScipt.currentZPos);
+
+        int start =0, end =0; 
+
+        if(tileX == x && tileZ != z)
+        {
+            start = z, end = tileZ;
+            if(tileZ > z)//fowards
+            {
+                addingCheckIsValid(start, end);
+            }
+            else//moving backwards
+            {
+                minusCheckValid(start, end);
+            }
+        }
+        else if(tileZ == z && tileX != x)//side to side
+        {
+            start = x, end = tileX;
+            if(tileX > x)//moving right
+            {
+                addingCheckIsValid(start, end);
+            }
+            else//moving left
+            {
+                minusCheckValid(start, end);
+            }
+        }
     }
 
+    public bool addingCheckIsValid(int start, int end, Board boardScript)
+    {
+        Vector3 temp;
+
+        for(int i = start; i <= end; i++){
+            temp = ();
+            if(boardScript.isPieceOnTile())
+            {
+                
+            }
+        }
+        return true;
+    }
+
+    public bool minusCheckValid(int start, int end, Board boardScript)
+    {
+        Vector3 temp;    
+
+        for(int i = start; i <= end; i--){
+            if()
+            {
+                
+            }    
+
+        }
+        return true;
+    }*/
+
+    public void rookRules(Vector3 tilePos, Board boardScript)
+    {
+        int tileX = (int)tilePos.x; int tileZ = (int)tilePos.z;
+        Rook rookScipt = boardScript.getCurrentPiece().GetComponent<Rook>();
+
+        int x = (rookScipt.currentXPos);
+        int z = (rookScipt.currentZPos);
+
+
+    }
 }

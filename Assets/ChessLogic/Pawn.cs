@@ -15,7 +15,17 @@ public class Pawn : Pieces
 
     public void pawnMoveRules(Vector3 tilePos, Board boardScript)
     {
+
+
         Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
+
+        //pawn promotion check
+        if(pieceScript.team == 1 && tilePos.z == 7 || pieceScript.team == 0 && tilePos.z == 0)
+        {
+           pawnPromotion(boardScript, );
+        }
+
+
         //int forward = (pieceScript.currentZPos + 1), forward2 = (pieceScript.currentZPos + 2);
 
         //white pieces moves are 1, black pieces moves are 0. [1, 0] single move forward white..

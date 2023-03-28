@@ -52,7 +52,7 @@ public class SelectPiece : MonoBehaviour
 
             if (gameObject.tag == "Piece")
             {
-                 Debug.Log("hello piece");
+               //  Debug.Log("hello piece");
 
                 boardScript.setCurrentPiece(gameObject);
             }
@@ -66,14 +66,14 @@ public class SelectPiece : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("error, No piece selected");//display this out to user
+                   // Debug.Log("error, No piece selected");//display this out to user
                 }
             }
      }
 
      public void movePieceToTile(GameObject gameObject, Board boardSript)
      {
-     Debug.Log("hello");
+    // Debug.Log("hello");
         boardSript.setCurrentMoveValid(false);
         Vector3 xPos = gameObject.GetComponent<Transform>().position;
 

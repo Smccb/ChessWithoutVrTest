@@ -17,6 +17,8 @@ public class Board : MonoBehaviour
 
     GameObject[,] tilesArray = new GameObject[8, 8];
 
+    private GameObject PawnPro;
+
     private int wPlayerScore = 0;
     private int bPlayerScore = 0;
 
@@ -230,6 +232,15 @@ public class Board : MonoBehaviour
     {
        GameObject gO = tempPiece.gameObject;
         int t = tempPiece.team;
+
+
+        //king taken ends game in win
+        if(tempPiece.ptype == PieceType.King)
+        {
+            //change scene here and direct user to correct scene depending on win/lose
+            Debug.Log("game over " + tempPiece.team + " loses");
+        }
+
         //update player score
         if (t == 0)
         {
@@ -263,5 +274,15 @@ public class Board : MonoBehaviour
     public bool getCurrentMoveValid() 
     {
         return this.currentMoveValid;
+    }
+
+    public void setPawnPromotionSelected(GameObject gameObject)
+    {
+        this.PawnPro = gameObject;
+    }
+
+     public GameObject getPawnPromotionSelected()
+    {
+        return PawnPro;
     }
 }
