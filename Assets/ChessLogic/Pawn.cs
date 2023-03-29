@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pawn : Pieces
 {
     bool movedFromStartPos;
+    [SerializeField] private GameObject[] pawnProOptions;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,7 @@ public class Pawn : Pieces
         //pawn promotion check
         if(pieceScript.team == 1 && tilePos.z == 7 || pieceScript.team == 0 && tilePos.z == 0)
         {
-           pawnPromotion(boardScript, );
+           pawnPromotion(boardScript);
         }
 
 
@@ -80,8 +81,13 @@ public class Pawn : Pieces
     }
 
     //handles pawn promotion
-    public void pawnPromotion() 
-    {
+    public void pawnPromotion(Board boardScript) {
+        int[,] positions;
         
+        for(int i=0; i <= 4; i++)
+        {
+            //instantiate all pieces in array at array positions
+           // pawnProOptions[i] = Instantiate(pawnProOptions, new Vector3(positions);
+        }
     }
 }

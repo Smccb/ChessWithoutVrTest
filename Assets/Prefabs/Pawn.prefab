@@ -133,6 +133,11 @@ MonoBehaviour:
   currentXPos: 0
   currentZPos: 0
   pieceWorth: 0
+  pawnProOptions:
+  - {fileID: 1028868664329696, guid: 1c0f2faf14460a5478057fd4e0575576, type: 3}
+  - {fileID: 1945632463053948, guid: be3573ba2ba53ea4f8979e64874c493d, type: 3}
+  - {fileID: 1992623236052302, guid: 85ad2c556fdbd5747ac7f5f67f10e59b, type: 3}
+  - {fileID: 1971375302472462, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
 --- !u!114 &5616791209591163545
 MonoBehaviour:
   m_ObjectHideFlags: 0

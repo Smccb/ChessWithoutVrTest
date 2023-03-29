@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class PawnPromotion : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+//in real (VR version) implement this class like the piece movement one
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -27,7 +21,7 @@ public class PawnPromotion : MonoBehaviour
 
                     Board boardScript = board.GetComponent<Board>();
 
-                    boardScript.setPawnPromotionSelected(gO);
+                    boardScript.pawnPromotionUpdatepiece(gO);
                  }
              }
          }

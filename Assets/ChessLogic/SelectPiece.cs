@@ -21,15 +21,8 @@ public class SelectPiece : MonoBehaviour
              {
                  if (raycastHit.transform != null)
                  {
-                   // Debug.Log(raycastHit.transform.gameObject.name);
-                    //Pieces script = gameObject.GetComponent<Pieces>();
-                    //Debug.Log(script.);
-                    //Our custom method. 
-                    // 
                     GameObject  gO =raycastHit.transform.gameObject;
-                    //Debug.Log(gO.name);
                     Pieces p = gO.GetComponent<Pieces>();
-                    //Debug.Log(p.ptype);
                     CurrentClickedGameObject(gO);
                  }
              }

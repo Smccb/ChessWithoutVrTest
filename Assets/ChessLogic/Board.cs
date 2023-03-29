@@ -22,6 +22,8 @@ public class Board : MonoBehaviour
     private int wPlayerScore = 0;
     private int bPlayerScore = 0;
 
+    private bool playerTurn;
+
     private bool currentMoveValid;
 
     public Material pieceSelectedMaterial;
@@ -276,13 +278,9 @@ public class Board : MonoBehaviour
         return this.currentMoveValid;
     }
 
-    public void setPawnPromotionSelected(GameObject gameObject)
+    public void pawnPromotionUpdatepiece(GameObject gameObject)
     {
-        this.PawnPro = gameObject;
-    }
-
-     public GameObject getPawnPromotionSelected()
-    {
-        return PawnPro;
+        //take in the selected type they want to upgrade to
+        //call singleSpawn function and the positioning method to place a piece onto the board at that position
     }
 }
