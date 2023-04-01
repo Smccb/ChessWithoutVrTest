@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 33667145997053058}
   - component: {fileID: 23923637149797032}
   - component: {fileID: -8508918891635287578}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rook_pro
-  m_TagString: Untagged
+  m_TagString: PawnPro
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

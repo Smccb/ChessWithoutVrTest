@@ -277,10 +277,4 @@ public class Board : MonoBehaviour
     {
         return this.currentMoveValid;
     }
-
-    public void pawnPromotionUpdatepiece(GameObject gameObject)
-    {
-        //take in the selected type they want to upgrade to
-        //call singleSpawn function and the positioning method to place a piece onto the board at that position
-    }
 }

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 33386584874682660}
   - component: {fileID: 23714218359197728}
   - component: {fileID: 4107114254530825238}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Queen_pro
-  m_TagString: Untagged
+  m_TagString: PawnPro
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

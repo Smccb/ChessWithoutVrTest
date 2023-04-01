@@ -60,6 +60,11 @@ public class Pawn : Pieces
         Board boardScript = board.GetComponent<Board>();
 
         Pieces pieceScript = boardScript.getCurrentPiece().GetComponent<Pieces>();
+        //pawn promotion check
+        if(pieceScript.team == 1 && tilePos.z == 7 || pieceScript.team == 0 && tilePos.z == 0)
+        {
+           pawnPromotion(boardScript);
+        }
         int right = (pieceScript.currentXPos + 1), left = (pieceScript.currentXPos - 1);
         
         int[] offset = { (pieceScript.currentZPos -1), (pieceScript.currentZPos + 1) };//black0, white1
@@ -83,10 +88,20 @@ public class Pawn : Pieces
     //handles pawn promotion
     public void pawnPromotion(Board boardScript) {
         
-        for(int i=0; i <= 4; i++) {
+        for(int i=0; i < 4; i++) {
             //instantiate all pieces in array at array positions
             //pawnProOptions[i] = Instantiate(pawnProOptions[i], new Vector3(8, 0 , i+3));
+            Instantiate(pawnProOptions[i], new Vector3(-1, 0 , i+3), Quaternion.identity);
+
         }   
+    }
+    public void removePawnPromotionPieces() 
+    {
+        for(int i=0; i < 4; i++) {
+            //instantiate all pieces in array at array positions
+            //pawnProOptions[i] = Instantiate(pawnProOptions[i], new Vector3(8, 0 , i+3));
+            Destroy(pawnProOptions[i]);
+        }  
     }
     
 }

@@ -8,6 +8,7 @@ TagManager:
   - Tile
   - Board
   - BoardLayout
+  - PawnPro
   layers:
   - Default
   - TransparentFX
@@ -15,9 +16,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player1
+  - Player2
+  - PawnPromotion
   - 
   - 
   - 

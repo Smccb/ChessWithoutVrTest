@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 33961714295525734}
   - component: {fileID: 23756955892116760}
   - component: {fileID: -4488040772315285983}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Knight_pro
-  m_TagString: Untagged
+  m_TagString: PawnPro
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -62,6 +62,7 @@ public class SelectPiece : MonoBehaviour
                    // Debug.Log("error, No piece selected");//display this out to user
                 }
             }
+            
      }
 
      public void movePieceToTile(GameObject gameObject, Board boardSript)
