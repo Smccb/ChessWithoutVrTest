@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Knight : Pieces
 {
+
+    bool movedFromStartPos;
+
     // Start is called before the first frame update
     void Start()
     {
         pieceWorth = 3;
+        movedFromStartPos = false;
     }
 
     // Update is called once per frame

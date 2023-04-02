@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;  
 //using UnityEngine.XR.Interaction.Toolkit;
 
 
@@ -17,11 +18,10 @@ public class Board : MonoBehaviour
 
     GameObject[,] tilesArray = new GameObject[8, 8];
 
-    private GameObject PawnPro;
+    private string PawnPro;
 
     private int wPlayerScore = 0;
     private int bPlayerScore = 0;
-
     private bool playerTurn;
 
     private bool currentMoveValid;
@@ -37,6 +37,7 @@ public class Board : MonoBehaviour
     void Start()
     {
         setStartLayout();
+        playerTurn = true;
     }
 
     public void setStartLayout() 
@@ -106,6 +107,7 @@ public class Board : MonoBehaviour
             chessPieces[i, 6] = SpawnOnePiece(PieceType.Pawn, blackTeam);
         }
     }
+
     public Pieces SpawnOnePiece(PieceType ptype, int team) {
         Pieces p = Instantiate(prefabs[(int)ptype-1], transform).GetComponent<Pieces>();
 
@@ -140,28 +142,22 @@ public class Board : MonoBehaviour
     //set piece last selected
     public void setCurrentPiece(GameObject piece) 
     {
+        //highlightSeletedPiece(piece);
         this.currecntlySelectedPiece = piece;
-       /* if (piece != null)
-        {
-            piece.GetComponent<MeshRenderer>().material = pieceSelectedMaterial;
-        }
-        else 
-        {
-            int team = piece.GetComponent<Pieces>().team;
-            if (team == 1)
-            {
-                piece.GetComponent<MeshRenderer>().material = teamMaterials[1];
-            }
-            else 
-            {
-                piece.GetComponent<MeshRenderer>().material = teamMaterials[0];
-            }
-        }*/
     }
 
     //get last piece selected
     public GameObject getCurrentPiece() {
         return this.currecntlySelectedPiece;
+    }
+
+    //used for changing turns
+    public void setPlayerTurn(bool playerTurn) {
+        this.playerTurn = playerTurn;
+    }
+
+    public bool getPlayerTurn() {
+        return this.playerTurn;
     }
 
     public void updateChessArray(Vector3 position)
@@ -230,6 +226,8 @@ public class Board : MonoBehaviour
         return true;
     }
 
+
+    //removes gameobject from scene using script instance
     public void removePiece(Pieces tempPiece)
     {
        GameObject gO = tempPiece.gameObject;
@@ -239,8 +237,7 @@ public class Board : MonoBehaviour
         //king taken ends game in win
         if(tempPiece.ptype == PieceType.King)
         {
-            //change scene here and direct user to correct scene depending on win/lose
-            Debug.Log("game over " + tempPiece.team + " loses");
+            winSceneRedirect();// needs check for which player gets sent to which scene
         }
 
         //update player score
@@ -254,20 +251,25 @@ public class Board : MonoBehaviour
             wPlayerScore += tempPiece.pieceWorth;
             Debug.Log(wPlayerScore);
         }
-
         Destroy(gO);
     }
 
+    public void highlightSeletedPiece(GameObject selected)
+    {
+        selected.GetComponent<MeshRenderer>().material = pieceSelectedMaterial;
+    }
+
+    //checks if pieces on tile
     public bool isPieceOnTile(Vector3 tilePos)
     {
         if (chessPieces[(int)tilePos.x, (int)tilePos.z] != null) {
-            //piece at position already
             return true;
         }
-        //no piece on tile
         return false;
     }
 
+
+    //keeps track if the move is considered valid
     public void setCurrentMoveValid(bool isMoveValid) 
     {
         this.currentMoveValid = isMoveValid;
@@ -277,4 +279,33 @@ public class Board : MonoBehaviour
     {
         return this.currentMoveValid;
     }
+
+
+    //redirects to correct scene if player won or lost / drew the game
+    public void winSceneRedirect() {  
+        SceneManager.LoadScene("Win scene");  
+    } 
+
+    public void loseSceneRedirect() {  
+        SceneManager.LoadScene("Lose scene");  
+    }
+    public void drawSceneRedirect() {  
+        SceneManager.LoadScene("Draw scene");  
+    }
+
+    public void unHighlightAllPieces()
+    {
+    GameObject[] PieceObjects;
+        PieceObjects = GameObject.FindGameObjectsWithTag("Piece");
+        for(int i =0; i< PieceObjects.Length; i++)
+        {
+           unHighlightSinglePiece(PieceObjects[i]);
+        }
+    }
+     public void unHighlightSinglePiece(GameObject gameObject)
+     {
+        Pieces p = gameObject.GetComponent<Pieces>();
+ 
+        gameObject.GetComponent<MeshRenderer>().material = teamMaterials[p.team];
+     }
 }

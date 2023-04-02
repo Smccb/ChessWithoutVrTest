@@ -45,9 +45,30 @@ public class SelectPiece : MonoBehaviour
 
             if (gameObject.tag == "Piece")
             {
+                //checks for player turns
+                if(boardScript.getPlayerTurn() && p.team == 1) 
+                {
+                    boardScript.setCurrentPiece(gameObject);
+
+                    //piece highlighting
+                    boardScript.unHighlightAllPieces();
+                    boardScript.highlightSeletedPiece(gameObject);
+                }
+                else if(!boardScript.getPlayerTurn() && p.team == 0)
+                {
+                    boardScript.setCurrentPiece(gameObject);
+
+                    //piece highlighting
+                    boardScript.unHighlightAllPieces();
+                    boardScript.highlightSeletedPiece(gameObject);
+                }
+                else
+                {
+                    Debug.Log("Other Players turn");
+                }
                //  Debug.Log("hello piece");
 
-                boardScript.setCurrentPiece(gameObject);
+                
             }
             else if (gameObject.tag == "Tile")
             {
@@ -59,7 +80,7 @@ public class SelectPiece : MonoBehaviour
                 }
                 else
                 {
-                   // Debug.Log("error, No piece selected");//display this out to user
+                    //Debug.Log("error, No piece selected");//display this out to user
                 }
             }
             
@@ -80,7 +101,22 @@ public class SelectPiece : MonoBehaviour
 
                 boardSript.getCurrentPiece().transform.position = xPos;
                 boardSript.updateChessArray(xPos);
-                boardSript.setCurrentPiece(null);
+               // boardSript.setCurrentPiece(null);
+
+                //Debug.Log("Before move: " + boardSript.getPlayerTurn());
+
+                //after valid move change player turn
+                if(boardSript.getPlayerTurn()) 
+                {
+                    boardSript.setPlayerTurn(false);
+                    //boardSript.unHighlightSinglePiece(boardSript.getCurrentPiece());
+                }
+                else 
+                {
+                    boardSript.setPlayerTurn(true);
+                }
+                //Debug.Log("After move: " + boardSript.getPlayerTurn());
+                boardSript.unHighlightSinglePiece(boardSript.getCurrentPiece());
         }
 
         else
