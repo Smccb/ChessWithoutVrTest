@@ -74,7 +74,7 @@ public class King : Pieces
         }
     }*/
 
-    /*public void kingRules(Vector3 tilePos, Board boardScript) {
+    public void kingRules(Vector3 tilePos, Board boardScript) {
         Debug.Log("King Rules");
 
         King kingScipt = boardScript.getCurrentPiece().GetComponent<King>();
@@ -103,9 +103,9 @@ public class King : Pieces
                 boardScript.setCurrentMoveValid(true);
             }
         }
-    }*/
+    }
 
-    public void kingRules(Vector3 tilePos, Board boardScript) 
+   /* public void kingRules(Vector3 tilePos, Board boardScript) 
     {
         King kingScipt = boardScript.getCurrentPiece().GetComponent<King>();
 
@@ -149,5 +149,5 @@ public class King : Pieces
             avaiableMoves.Add(new Vector3(x-1,0f,z));
         }
         boardScript.setCurrentMoveValid(true);
-    }
+    }*/
 }

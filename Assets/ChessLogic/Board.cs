@@ -23,6 +23,7 @@ public class Board : MonoBehaviour
     private int wPlayerScore = 0;
     private int bPlayerScore = 0;
     private bool playerTurn;
+    public Material[] tileMaterials;
 
     private bool currentMoveValid;
 
@@ -310,14 +311,14 @@ public class Board : MonoBehaviour
      }
      public void HighlightAllTiles(List<Vector3> availableMoves)
     {
-        foreach (var i in avaiableMoves) {
+        //foreach (var i in avaiableMoves) {
             
-        }
+        //}
     }
      public void HighlightSingleTile(GameObject gameObject)
      {
         Pieces p = gameObject.GetComponent<Pieces>();
  
-        gameObject.GetComponent<MeshRenderer>().material = tileMaterial;
+        gameObject.GetComponent<MeshRenderer>().material = tileMaterials[1];
      }
 }
