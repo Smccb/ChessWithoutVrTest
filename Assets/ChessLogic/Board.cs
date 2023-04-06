@@ -295,7 +295,7 @@ public class Board : MonoBehaviour
 
     public void unHighlightAllPieces()
     {
-    GameObject[] PieceObjects;
+        GameObject[] PieceObjects;
         PieceObjects = GameObject.FindGameObjectsWithTag("Piece");
         for(int i =0; i< PieceObjects.Length; i++)
         {
@@ -307,5 +307,17 @@ public class Board : MonoBehaviour
         Pieces p = gameObject.GetComponent<Pieces>();
  
         gameObject.GetComponent<MeshRenderer>().material = teamMaterials[p.team];
+     }
+     public void HighlightAllTiles(List<Vector3> availableMoves)
+    {
+        foreach (var i in avaiableMoves) {
+            
+        }
+    }
+     public void HighlightSingleTile(GameObject gameObject)
+     {
+        Pieces p = gameObject.GetComponent<Pieces>();
+ 
+        gameObject.GetComponent<MeshRenderer>().material = tileMaterial;
      }
 }

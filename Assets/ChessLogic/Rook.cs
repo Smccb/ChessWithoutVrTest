@@ -229,11 +229,57 @@ public class Rook : Pieces
     public void rookRules(Vector3 tilePos, Board boardScript)
     {
         int tileX = (int)tilePos.x; int tileZ = (int)tilePos.z;
-        Rook rookScipt = boardScript.getCurrentPiece().GetComponent<Rook>();
+        Rook r = boardScript.getCurrentPiece().GetComponent<Rook>();
 
-        int x = (rookScipt.currentXPos);
-        int z = (rookScipt.currentZPos);
+        int x = (r.currentXPos);
+        int z = (r.currentZPos);
 
+        Vector3 temp = new Vector3();
+        List<Vector3> positions = new List<Vector3>();
 
+        //piece location to tile location
+        /*for()
+        {
+        
+        }*/
+
+        //right
+        if (tileX > x && tileZ == z)
+        {
+            
+        }
+
+        //left
+        else if (tileX < x && tileZ == z)
+        {
+            int i = x;
+           //temp = (Vector3)(i, 0, z);
+            //while(!boardScript.isPieceOnTile(temp) && x >= 0) 
+            {
+             //   positions.Add(temp);
+             //   i++;
+             //   Debug.Log(temp);
+            }
+        }
+
+        //forward
+        else if (tileZ > z && tileX == x)
+        {
+            int i = z;
+            //temp = (x, 0, i);
+            
+        }
+
+        //backwards
+        else if (tileZ < z && tileX == x)
+        {
+           
+        }
+
+        else 
+        {
+            boardScript.setCurrentMoveValid(false);
+        }
+        
     }
 }
