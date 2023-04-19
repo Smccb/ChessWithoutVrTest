@@ -13,12 +13,16 @@ public class Queen : Pieces
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void queenRules(Vector3 tilePos, Board boardScript)
-    {
-        Debug.Log("Queen Rules");
-        boardScript.setCurrentMoveValid(true);
+    public List<Vector3> queenRules(Board boardScript, GameObject gO)
+    { 
+        List<Vector3> avaiableMoves = new List<Vector3>();
+        avaiableMoves = RookMoves(boardScript, gO);
+        avaiableMoves.AddRange(BishopMoves(boardScript, gO));
+
+        //boardScript.SetMovesAvailable(avaiableMoves);
+        return avaiableMoves;
     }
 }

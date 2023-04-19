@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -8141727979422261252}
   - component: {fileID: 3314871344791930790}
   - component: {fileID: 6511833829185416973}
-  - component: {fileID: 2150580372976489580}
   m_Layer: 0
   m_Name: Queen
   m_TagString: Piece
@@ -133,15 +132,3 @@ MonoBehaviour:
   currentXPos: 0
   currentZPos: 0
   pieceWorth: 0
---- !u!114 &2150580372976489580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5358561319547643128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6191b9942a1afc4ab0bf1c6de8e4848, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

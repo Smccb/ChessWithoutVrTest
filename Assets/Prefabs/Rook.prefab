@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -890717873574571943}
   - component: {fileID: 7319554793664273980}
   - component: {fileID: 6575848393589143022}
-  - component: {fileID: 5730735133413402655}
   m_Layer: 0
   m_Name: Rook
   m_TagString: Piece
@@ -133,15 +132,3 @@ MonoBehaviour:
   currentXPos: 0
   currentZPos: 0
   pieceWorth: 0
---- !u!114 &5730735133413402655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8635304528212239440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6191b9942a1afc4ab0bf1c6de8e4848, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

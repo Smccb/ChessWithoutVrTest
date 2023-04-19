@@ -1,35 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UnityEngine.XR.Interaction.Toolkit;
 
 public class PawnPromotion : MonoBehaviour
 {
-//in real (VR version) implement this class like the piece movement one
-    void Update()
+    /*void Start()
     {
-        if (Input.GetMouseButtonDown(0)) {
-             RaycastHit raycastHit;
-             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-             if (Physics.Raycast(ray, out raycastHit, 100f))
-             {
-                 if (raycastHit.transform != null)
-                 {
-                    GameObject  gO =raycastHit.transform.gameObject;
-
-                    if (gameObject.tag == "PawnPro") {
-                        Debug.Log(gameObject.name);
-                        pawnPromotionUpdatepiece(gO);
-                    }
-                 }
-             }
-        }
+        XRSimpleInteractable interactableObject = GetComponent<XRSimpleInteractable>();
+        interactableObject.activated.AddListener(interactableActivated);
     }
 
+    public void interactableActivated(ActivateEventArgs args)
+    {
+        XRSimpleInteractable interactable = GetComponent<XRSimpleInteractable>();
+        GameObject pawnProObject = interactable.gameObject;
+        pawnPromotionUpdatepiece(pawnProObject);
+    }
     public void pawnPromotionUpdatepiece(GameObject gameObject)
     {
         //.removePawnPromotionPieces();
         //take in the selected type they want to upgrade to
         //Debug.Log(gameObject.name);
         //call singleSpawn function and the positioning method to place a piece onto the board at that position
-    }
+        Debug.Log(gameObject.name);
+    }*/
 }

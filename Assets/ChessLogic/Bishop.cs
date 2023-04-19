@@ -18,12 +18,11 @@ public class Bishop : Pieces
         
     }
 
-    public void bishopRules(Vector3 tilePos, Board boardScript) 
+    public List<Vector3> bishopRules(Board boardScript, GameObject gO)
     {
-        Debug.Log("Bishop Rules");
-
-        //if z==z or x==x set moveValid false
-        //else preform other checks
-        boardScript.setCurrentMoveValid(true);
+        List<Vector3> avaiableMoves = new List<Vector3>();
+        avaiableMoves = BishopMoves(boardScript, gO);
+        //boardScript.SetMovesAvailable(avaiableMoves);
+        return avaiableMoves;
     }
 }

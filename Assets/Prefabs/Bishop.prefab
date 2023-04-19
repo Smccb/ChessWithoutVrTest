@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5263866028675246750}
   - component: {fileID: -5011761314269573124}
   - component: {fileID: -8250781457391119390}
-  - component: {fileID: -893267842410477939}
   m_Layer: 0
   m_Name: Bishop
   m_TagString: Piece
@@ -133,15 +132,3 @@ MonoBehaviour:
   currentXPos: 0
   currentZPos: 0
   pieceWorth: 0
---- !u!114 &-893267842410477939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7545016909643436103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6191b9942a1afc4ab0bf1c6de8e4848, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

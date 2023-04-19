@@ -9,6 +9,7 @@ TagManager:
   - Board
   - BoardLayout
   - PawnPro
+  - messageToUser
   layers:
   - Default
   - TransparentFX
