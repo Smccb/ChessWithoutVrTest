@@ -24,6 +24,9 @@ public class Board : MonoBehaviour
     private bool playerTurn;
     public Material[] tileMaterials;
 
+    private Pieces wK;
+    private Pieces bK;
+
     private bool currentMoveValid;
 
     public Material pieceSelectedMaterial;
@@ -133,6 +136,7 @@ public class Board : MonoBehaviour
         }
     }
 
+
     void positionSinglePiece(int i, int j, bool force = false)
     {
         chessPieces[i, j].currentXPos = i;
@@ -165,18 +169,46 @@ public class Board : MonoBehaviour
         return this.playerTurn;
     }
 
-    public void updateChessArray(Vector3 position)
+    //white King refecernce
+    public void SetWKingScript(Pieces kScript)
     {
+        this.wK = kScript;
+    }
+    public Pieces GetWKingScript()
+    {
+        return this.wK;
+    }
+    //black King refecernce
+    public void SetBKingScript(Pieces kScript)
+    {
+        this.bK = kScript;
+    }
+    public Pieces GetBKingScript()
+    {
+        return this.bK;
+    }
 
+    public void updateChessArray(Vector3 position, int counter)
+    {
         Pieces tempScript = getCurrentPiece().GetComponent<Pieces>();
         int oldZPos = tempScript.currentZPos;
         int oldXPos = tempScript.currentXPos;
         chessPieces[oldXPos, oldZPos] = null;//removing piece at old position
+        
+        if(counter == 1) 
+        {
+            Pawn ppp = tempScript.GetComponent<Pawn>();
+            Pieces SC = ppp.GetPromotion();
 
-        tempScript.currentXPos = (int)position.x;
-        tempScript.currentZPos = (int)position.z;//changing script pos
+            chessPieces[(int)position.x, (int)position.z] = SC;
+        }
+        else 
+        {
+            tempScript.currentXPos = (int)position.x;
+            tempScript.currentZPos = (int)position.z;//changing script pos
 
-        chessPieces[(int)position.x, (int)position.z] = getCurrentPiece().GetComponent<Pieces>();//setting piece at new position
+            chessPieces[(int)position.x, (int)position.z] = getCurrentPiece().GetComponent<Pieces>();//setting piece at new position
+        }
     }
 
     public Pieces[,] getChessArray() {
@@ -329,14 +361,15 @@ public class Board : MonoBehaviour
             //Debug.Log("Num Here: " + i);
             gO = piecesOnBoard[i];
             piece = gO.GetComponent<Pieces>();
-
+            
+            //if(counter == 2){}//do version with updated chess Pieces array here/made up one
 
             if (kScript.team != piece.team && piece.ptype != PieceType.King)
             {
                 if (piece.ptype == PieceType.Pawn)
                 {
                     Pawn pawn = gO.GetComponent<Pawn>();
-                    movesToBeChecked = pawn.pawnMoveRules(boardScript, gO, 1);
+                    movesToBeChecked = pawn.pawnMoveRules(boardScript, gO, 1);//value 1 here allow to simulate a piece at this position
 
                     for (int j = 0; j < movesToBeChecked.Count; j++)
                     {
@@ -520,5 +553,21 @@ public class Board : MonoBehaviour
         }
         Debug.Log("Message here");
         return allMoveOptionsStuff;
+    }
+
+    public Pieces spawnPawnPromotion(PieceType ptype, int team, Vector3 temp)
+    {
+        Pieces p = Instantiate(prefabs[(int)ptype-1], temp, Quaternion.identity).GetComponent<Pieces>();
+
+        if(p.team == 0)
+        {
+            p.transform.Rotate(0, 180, 0);
+        }
+
+        p.ptype = ptype;
+        p.team = team;
+        p.GetComponent<MeshRenderer>().material = teamMaterials[team];
+
+        return p;
     }
 }

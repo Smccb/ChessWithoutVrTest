@@ -1,37 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SelectPiece : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Update()
     {
-        
-    }
-
-    void Update()
-  {
-         //Check for mouse click 
-         if (Input.GetMouseButtonDown(0))
-         {
-             RaycastHit hit;
-             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-             if (Physics.Raycast(ray, out hit, 10))
+             //Check for mouse click 
+             if (Input.GetMouseButtonDown(0))
              {
-                 //if (raycastHit.transform != null)
-                 //{
-                    GameObject  gO = hit.transform.gameObject;
-                    Pieces p = gO.GetComponent<Pieces>();
-                    CurrentClickedGameObject(gO);
-                    //Invoke("CurrentClickedGameObject", 2);
-                 //}
+                 RaycastHit hit;
+                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                 if (Physics.Raycast(ray, out hit, 10))
+                 {
+                     //if (raycastHit.transform != null)
+                     //{
+                        GameObject  gO = hit.transform.gameObject;
+                        Pieces p = gO.GetComponent<Pieces>();
+                        CurrentClickedGameObject(gO);
+                        //Invoke("CurrentClickedGameObject", 2);
+                     //}
+                 }
              }
-         }
-  }
+    }
+  
  
-     public void CurrentClickedGameObject(GameObject gO)
-     {
+    public void CurrentClickedGameObject(GameObject gO)
+    {
         GameObject board = GameObject.FindWithTag("BoardLayout");
 
         Board boardScript = board.GetComponent<Board>();
@@ -50,11 +46,13 @@ public class SelectPiece : MonoBehaviour
             {
                 if (piece.team == 0)
                 {
-                    wK = piece.GetComponent<King>();
+                    bK = piece.GetComponent<King>();
+                    boardScript.SetBKingScript(piece);
                 }
                 else
                 {
-                    bK = piece.GetComponent<King>();
+                    wK = piece.GetComponent<King>();
+                    boardScript.SetWKingScript(piece);
                 }
             }
         }
@@ -63,16 +61,19 @@ public class SelectPiece : MonoBehaviour
         if (gO.tag == "Piece")
         {
             Pieces p = gO.GetComponent<Pieces>();
+
             if (boardScript.getPlayerTurn() && p.team == 1 || !boardScript.getPlayerTurn() && p.team == 0)
             {
                 //checks for game states
                 if (wK.GetInCheck() && p.team == 1)
                 {
+                    Debug.Log(boardScript.currentlyCheckingKing);
                     boardScript.KingInCheckGame(boardScript, gO, wK);
                 }
 
                 else if (bK.GetInCheck() && p.team == 0)
                 {
+                    Debug.Log(boardScript.currentlyCheckingKing);
                     boardScript.KingInCheckGame(boardScript, gO, bK);
                 }
                 else if(!wK.GetInCheck() || !bK.GetInCheck())
@@ -96,7 +97,6 @@ public class SelectPiece : MonoBehaviour
                 //movePieceToTile(gameObject, boardScript);
 
                 MoveToTileSelected(gO, boardScript);
-
             }
             else
             {
@@ -106,9 +106,8 @@ public class SelectPiece : MonoBehaviour
                 TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
                 scriptToUser.ShowTextMessageToUser(message);
             }
-        }
-            
-     }
+        }     
+    }
 
     public void MoveToTileSelected(GameObject gameObject, Board boardScript) 
     {
@@ -128,10 +127,12 @@ public class SelectPiece : MonoBehaviour
                 if (piece.team == 1)
                 {
                     wK = piece.GetComponent<King>();
+                    boardScript.SetWKingScript(piece.GetComponent<King>());
                 }
                 else
                 {
                     bK = piece.GetComponent<King>();
+                    boardScript.SetBKingScript(piece.GetComponent<King>());
                 }
             }
         }
@@ -195,7 +196,7 @@ public class SelectPiece : MonoBehaviour
             //audioSource.PlayOneShot(AudioClip audioClip, Float volumeScale);
 
             boardScript.getCurrentPiece().transform.position = pos;
-            boardScript.updateChessArray(pos);
+            boardScript.updateChessArray(pos, 0);
 
 
             //if it was a pawn need to say it has moved before
@@ -203,6 +204,14 @@ public class SelectPiece : MonoBehaviour
             {
                 Pawn currentPiece = boardScript.getCurrentPiece().GetComponent<Pawn>();
                 currentPiece.SetMovedFromStartPos(true);
+                if(currentPiece.team == 1 && (int)pos.z == 7)
+                {
+                    currentPiece.PawnPromotion(boardScript, currentPiece, pos);
+                }
+                else if(currentPiece.team == 0 && (int)pos.z == 0)
+                {
+                    currentPiece.PawnPromotion(boardScript, currentPiece, pos);
+                }
             }
 
             //Debug.Log("Before move: " + boardSript.getPlayerTurn());
@@ -272,8 +281,6 @@ public class SelectPiece : MonoBehaviour
                 scriptToUser.ShowTextMessageToUser(invalid);
             }
         }
-        
-
 
         else 
         {
@@ -283,6 +290,26 @@ public class SelectPiece : MonoBehaviour
             scriptToUser.ShowTextMessageToUser(invalid);
             //Debug.Log("Not a valid move");
         }
+
+        //illegal move put own king in Check
+            Debug.Log(bK.GetInCheck());
+            Debug.Log(wK.GetInCheck());
+            if(boardScript.getPlayerTurn() && bK.GetInCheck())
+            {
+                string message = "Illegal move, piece Put King in check";
+                GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+                TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+                scriptToUser.ShowTextMessageToUser(message);
+                RerouteToEnd(1);
+            }
+            else if(!boardScript.getPlayerTurn() && wK.GetInCheck())
+            {
+                string message = "Illegal move, piece Put King in check";
+                GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
+                TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
+                scriptToUser.ShowTextMessageToUser(message);
+                RerouteToEnd(0);
+            }
     }
 
 
@@ -295,5 +322,26 @@ public class SelectPiece : MonoBehaviour
 
         //createMovesList
         boardScript.CreateMovesList(gO);
+    }
+    public void RerouteToEnd(int winner)
+    {
+        SceneManager.LoadScene("Win Scene");
+       /* if(winner == 1)
+        {
+            static string message = "White Wins";
+            static GameObject GO = GameObject.FindWithTag("GameOver");
+            static GameOverScript GameOver = GO.GetComponent<GameOverScript>();
+            static GameOver.GameOverMessage(message);
+            SceneManager.LoadScene("Win Scene");
+        }
+        else
+        {
+            static string message = "Black Wins"; 
+            static GameObject GO = GameObject.FindWithTag("GameOver");
+            static GameOverScript GameOver = GO.GetComponent<GameOverScript>();
+            static GameOver.GameOverMessage(message);
+            SceneManager.LoadScene("Win Scene");
+        }*/
+        
     }
 }

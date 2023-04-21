@@ -5,8 +5,9 @@ using UnityEngine;
 public class Pawn : Pieces
 {
     private bool movedFromStartPos;
-    [SerializeField] private GameObject[] pawnProOptions;
+    //[SerializeField] private GameObject[] pawnProOptions;
     public bool currentlyBlocking;
+    private Pieces promotionSC;
 
     // Start is called before the first frame update
     void Start()
@@ -34,25 +35,27 @@ public class Pawn : Pieces
         //int[,] positions = { { (pieceScript.currentZPos - 1), (pieceScript.currentZPos - 2) }, { (pieceScript.currentZPos + 1), (pieceScript.currentZPos + 2) } };
         List<Vector3> avaiableMoves = new List<Vector3>();
         //if piece at position
-        Vector3 temp;
+        Vector3 temp; bool doesPosCauseCheck;
         //bool check = false;
+        //King details
+        //Pieces wKScript = null; Pieces bKScript = null;
+        //Vector3 wKPos; Vector3 bKPos;
 
         if (pieceScript.team == 1 && pieceScript.currentZPos < 7 || pieceScript.team == 0 && pieceScript.currentZPos > 0)
         {
-            //white piece team
+            
+        //white piece team
             if (pieceScript.team == 1)
             {
+                Pieces wKScript = boardScript.GetWKingScript();
+                Vector3 wKPos = new Vector3((float)wKScript.currentXPos,0f, (float)wKScript.currentZPos);
                 //Debug.Log(pieceScript.currentZPos + 1);
                 temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos + 1);
                 bool isPieceOnPos = boardScript.isPieceOnTile(temp);
-
-                if (!isPieceOnPos && counter < 1) 
+                //doesPosCauseCheck = boardScript.IsMoveACheckPos(wKPos, boardScript, wKScript, 0);
+                if (!isPieceOnPos && counter < 1 )//&& !doesPosCauseCheck)
                 {
                     avaiableMoves.Add(temp);
-
-                    //if (temp.z == 0)
-                        //pawnProcalled
-                        //boardScript.PawnPromotion();
 
                     currentlyBlocking = false;
                 }
@@ -62,62 +65,81 @@ public class Pawn : Pieces
                 
                 if (pieceScript.currentXPos < 7) 
                 {
+                    
                     isPieceOnPos = TakeChecksAdding(avaiableMoves, pieceScript, zPos, boardScript);
-                    if (isPieceOnPos) 
+                    //doesPosCauseCheck = boardScript.IsMoveACheckPos(wKPos, boardScript, wKScript, 0);
+                    if (isPieceOnPos)// && !doesPosCauseCheck) 
                     {
                         temp = new Vector3((float)pieceScript.currentXPos + 1, 0f, (float)zPos);
                         avaiableMoves.Add(temp);
+
+                        //if (temp.z == 7)
+                        //pawnProcalled
+                        //PawnPromotion(boardScript, pieceScript);
                     }
-                    
                 }
                 if (pieceScript.currentXPos > 0)
                 {
-                    isPieceOnPos = TakeChecksMinus(avaiableMoves, pieceScript, zPos, boardScript);
-                    if (isPieceOnPos)
-                    {
+                   isPieceOnPos = TakeChecksMinus(avaiableMoves, pieceScript, zPos, boardScript);
+                   // doesPosCauseCheck = boardScript.IsMoveACheckPos(wKPos, boardScript, wKScript, 0);
+                   if (isPieceOnPos )//&& !doesPosCauseCheck)
+                   {
                         temp = new Vector3((float)pieceScript.currentXPos - 1, 0f, (float)zPos);
                         avaiableMoves.Add(temp);
-                    }
+                   }
                 }
             }
 
             //black piece team
             else if(pieceScript.team == 0)
             {
+                //king details
+                Pieces bKScript = boardScript.GetBKingScript();
+                Vector3 bKPos = new Vector3((float)bKScript.currentXPos,0f, (float)bKScript.currentZPos);    
+
                 temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos - 1);
                 bool isPieceOnPos = boardScript.isPieceOnTile(temp);
-                if (!isPieceOnPos)
+                //doesPosCauseCheck = boardScript.IsMoveACheckPos(bKPos, boardScript, bKScript, 0);
+                if (!isPieceOnPos)// && !doesPosCauseCheck)
                 {
                     avaiableMoves.Add(temp);
-
-                    /*if (temp.z == 7)
-                    {
-                        //pawnProcalled
-                        //boardScript.PawnPromotion(gO);
-                    }*/
-
-                        currentlyBlocking = false;
+                    currentlyBlocking = false;
                 }
 
                 int zPos = pieceScript.currentZPos - 1;
 
                 if (pieceScript.currentXPos < 7)
                 {
+                    //doesPosCauseCheck = boardScript.IsMoveACheckPos(bKPos, boardScript, bKScript, 0);
                     isPieceOnPos = TakeChecksAdding(avaiableMoves, pieceScript, zPos, boardScript);
-                    if (isPieceOnPos || counter == 1)
+                    if (isPieceOnPos || counter == 1)// && !doesPosCauseCheck)
                     {
                         temp = new Vector3((float)pieceScript.currentXPos + 1, 0f, (float)zPos);
                         avaiableMoves.Add(temp);
-                    }
 
+                        /*if(counter < 1)
+                        {
+                            if (temp.z == 0)
+                            //pawnProcalled
+                            PawnPromotion(boardScript, pieceScript);
+                        }*/
+                    }
                 }
                 if (pieceScript.currentXPos > 0)
                 {
                     isPieceOnPos = TakeChecksMinus(avaiableMoves, pieceScript, zPos, boardScript);
-                    if (isPieceOnPos || counter == 1)
+                    //doesPosCauseCheck = boardScript.IsMoveACheckPos(bKPos, boardScript, bKScript, 0);
+                    if (isPieceOnPos || counter == 1)// && !doesPosCauseCheck)
                     {
                         temp = new Vector3((float)pieceScript.currentXPos - 1, 0f, (float)zPos);
                         avaiableMoves.Add(temp);
+
+                        /*if(counter < 1)
+                        {
+                            if (temp.z == 0)
+                            //pawnProcalled
+                            PawnPromotion(boardScript, pieceScript);
+                        }*/
                     }
                 }
             }
@@ -128,33 +150,27 @@ public class Pawn : Pieces
                 {
                     if (pieceScript.team == 1)
                     {
-                        temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos + 2);
-                        bool isPieceOnPos = boardScript.isPieceOnTile(temp);
-                        if (!isPieceOnPos)
-                        {
+                       //Pieces wKScript = boardScript.GetBKingScript();
+                       //Vector3 wKPos = new Vector3((float)wKScript.currentXPos,0f, (float)wKScript.currentZPos);
+                       temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos + 2);
+                       bool isPieceOnPos = boardScript.isPieceOnTile(temp);
+                       //doesPosCauseCheck = boardScript.IsMoveACheckPos(wKPos, boardScript, wKScript, 0);
+                       if (!isPieceOnPos)// && !doesPosCauseCheck)
+                       {
                             avaiableMoves.Add(temp);
-                           /* if (temp.z == 0)
-                            {
-                                //pawnProcalled
-                                //boardScript.PawnPromotion(gO);
-                            }*/
                         }
                     }
                     else
                     {
+                        //Pieces bKScript = boardScript.GetBKingScript();
+                        //Vector3 bKPos = new Vector3((float)bKScript.currentXPos,0f, (float)bKScript.currentZPos);
                         temp = new Vector3((float)pieceScript.currentXPos, 0f, (float)pieceScript.currentZPos - 2);
                         bool isPieceOnPos = boardScript.isPieceOnTile(temp);
-                        if (!isPieceOnPos)
+                        //doesPosCauseCheck = boardScript.IsMoveACheckPos(bKPos, boardScript, bKScript, 0);
+                        if (!isPieceOnPos)// && !doesPosCauseCheck)
                         {
                             avaiableMoves.Add(temp);
-                            /*if (temp.z == 7)
-                            {
-                                //pawnProcalled
-                                //boardScript.PawnPromotion(gO);
-                                
-                            }*/
                         }
-
                     }
                 }
             }
@@ -192,5 +208,37 @@ public class Pawn : Pieces
         }
         //return movesList;
         return false;
+    }
+
+    public void PawnPromotion(Board boardScript, Pieces pieceCS, Vector3 pos)
+    {
+        Debug.Log("Pawn promotion");
+        //boardScript.getChessArray();
+        int x = (int)pos.x; int z = (int)pos.z;
+        GameObject game = pieceCS.gameObject;
+        //remove
+        boardScript.removePiece(pieceCS);
+        //SpawnOnePiece
+        Pieces temp;
+
+        Vector3 vec = new Vector3((float)pos.x,0f, (float)pos.z);
+        //Pieces piece = Instantiate(prefabs[(int)ptype-1], gameObject.transform).GetComponent<Pieces>();
+        if(pieceCS.team == 1)
+        {
+            temp = boardScript.spawnPawnPromotion(PieceType.Queen, 1,vec);
+        }
+        else
+        {
+            temp = boardScript.spawnPawnPromotion(PieceType.Queen, 0, vec);
+        }
+        //Pieces[,] p = boardScript.getChessArray();
+
+        promotionSC = temp;
+        boardScript.updateChessArray(vec, 1);
+    }
+
+    public Pieces GetPromotion() 
+    {
+        return this.promotionSC;
     }
 }

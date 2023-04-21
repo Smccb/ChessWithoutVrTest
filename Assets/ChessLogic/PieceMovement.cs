@@ -181,7 +181,7 @@ public class PieceMovement : MonoBehaviour
             //audioSource.PlayOneShot(AudioClip audioClip, Float volumeScale);
 
             boardScript.getCurrentPiece().transform.position = pos;
-            boardScript.updateChessArray(pos);
+            boardScript.updateChessArray(pos, 0);
 
 
             //if it was a pawn need to say it has moved before

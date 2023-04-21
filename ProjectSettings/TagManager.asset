@@ -10,6 +10,7 @@ TagManager:
   - BoardLayout
   - PawnPro
   - messageToUser
+  - GameOver
   layers:
   - Default
   - TransparentFX
