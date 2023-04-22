@@ -29,6 +29,8 @@ public class Board : MonoBehaviour
 
     private bool currentMoveValid;
 
+    private Vector3 pieceOldPos;
+
     public Material pieceSelectedMaterial;
 
     public List<Pieces> currentlyCheckingKing;
@@ -188,6 +190,15 @@ public class Board : MonoBehaviour
         return this.bK;
     }
 
+    public void SetPieceOldPos(Vector3 pieceOldPos) 
+    {
+        this.pieceOldPos = pieceOldPos;
+    }
+    public Vector3 GetPieceOldPos()
+    {
+        return this.pieceOldPos;
+    }
+
     public void updateChessArray(Vector3 position, int counter)
     {
         Pieces tempScript = getCurrentPiece().GetComponent<Pieces>();
@@ -283,16 +294,16 @@ public class Board : MonoBehaviour
 
     public void winSceneRedirect()
     {
-        SceneManager.LoadScene("WinScene");
+        SceneManager.LoadScene("Win Scene");
     }
 
     public void loseSceneRedirect()
     {
-        SceneManager.LoadScene("LoseScene");
+        SceneManager.LoadScene("Lose Scene");
     }
     public void drawSceneRedirect()
     {
-        SceneManager.LoadScene("DrawScene");
+        SceneManager.LoadScene("Draw Scene");
     }
 
     public void highlightSeletedPiece(GameObject selected)
@@ -349,7 +360,7 @@ public class Board : MonoBehaviour
         gameObject.GetComponent<MeshRenderer>().material = tileMaterials[1];
     }
 
-    public bool IsMoveACheckPosNormal(Vector3 positionToMoveTo, Board boardScript,  Pieces pieceScript, Pieces kScript, Vector3 kPos)
+    /*public bool IsMoveACheckPosNormal(Vector3 positionToMoveTo, Board boardScript,  Pieces pieceScript, Pieces kScript, Vector3 kPos)
     {
         //get instance of king based
         
@@ -405,9 +416,9 @@ public class Board : MonoBehaviour
         }
 
         return holdResultTemp;
-    }
+    }*/
 
-    public bool IsMoveACheckPosForKing(Vector3 position, Board boardScript, Pieces kScript, int counter)
+    public bool IsMoveACheckPos(Vector3 position, Board boardScript, Pieces kScript, int counter)
     {
         GameObject gO; Pieces piece;
         Vector3 movePos;
@@ -521,11 +532,12 @@ public class Board : MonoBehaviour
         List<Vector3> pieceMoves = new List<Vector3>();
         List<Vector3> tempMoves = new List<Vector3>();
 
-        bool checkMate = false;
+        //bool checkMate = false;
         //calculate and look to see if checkmate has ocurred
-        //bool checkMate = HasCheckMateOccured(boardScript, p, kScript);
-        if (checkMate) 
+        bool checkMate = HasCheckMateOccured(boardScript, kScript);
+        if (checkMate)
         {
+            Debug.Log("Checkmate");
             winSceneRedirect();
         }
 
@@ -555,61 +567,49 @@ public class Board : MonoBehaviour
     }
 
 
-    public bool HasCheckMateOccured(Board boardScript, Pieces p, King kScript) 
+    public bool HasCheckMateOccured(Board boardScript, King kScript) 
     {
-        List<Vector3> allMoveOptionsStuff = CanGetOutOfCheck(boardScript, p, kScript);
-
-        if (allMoveOptionsStuff.Count < 1 || allMoveOptionsStuff == null)
-        {
-            //Debug.Log("Game Over, CheckMate");
-            return true;
-        }
-        else 
-        {
-            //SetGetOutOfCheckOptions(allMoveOptionsStuff);
-            return false;
-        }
-    }
-
-    public List<Vector3> CanGetOutOfCheck(Board boardScript, Pieces p, King kScript) 
-    {
-        List<Vector3> allMoveOptionsStuff = new List<Vector3>();
-
-        //get all moves king can make that dont put it in another check
+        GameObject gO; Pieces piece; Vector3 movePos;
+        List<Vector3> tempMoves;
+        bool tempToReturn = true;
+        //seeing if there are any king moves
         GameObject gameOb = kScript.gameObject;
         List<Vector3> kingMoves = kScript.kingRules(boardScript, gameOb);
-
-        //position of king as vector3
         Vector3 kPos = new Vector3((float)kScript.currentXPos, 0f, (float)kScript.currentZPos);
 
-        GameObject gO; Pieces piece;
-        Vector3 movePos;
+        //all other pieces checks
         List<Vector3> movesToBeChecked = new List<Vector3>();
         GameObject[] piecesOnBoard = boardScript.GetPiecesOnBoard();
-        allMoveOptionsStuff.AddRange(kingMoves);//add kings valid moves to all possible moves
-
         for (int i = 0; i < piecesOnBoard.Length; i++)
         {
-            //Debug.Log("Num Here: " + i);
             gO = piecesOnBoard[i];
             piece = gO.GetComponent<Pieces>();
-
+            tempMoves = piece.Rules(gO);
             movePos = new Vector3((float)piece.currentXPos, 0f, (float)piece.currentZPos);
             if (kScript.team == piece.team && piece.ptype != PieceType.King)
             {
                 //if()//any positions match the attacking pieces position
                 for (int j =0; j < currentlyCheckingKing.Count;  j++) 
                 {
-                    Vector3 newTeap = new Vector3((float)currentlyCheckingKing[i].currentXPos, 0f, (float)currentlyCheckingKing[i].currentZPos);
-                    if (newTeap == movePos) 
+                    for(int k=0; i < tempMoves.Count; k++)
                     {
-                        
+                        Vector3 checkPiecePos = new Vector3((float)currentlyCheckingKing[0].currentXPos, 0f, (float)currentlyCheckingKing[0].currentZPos);
+                        if (checkPiecePos == tempMoves[k])
+                        {
+                            Debug.Log("This is false");
+                            return false;
+                        }
                     }
                 }
             }
         }
-        Debug.Log("Message here");
-        return allMoveOptionsStuff;
+        if(kingMoves.Count > 1)
+        {
+            Debug.Log("Another: This is false");
+            return false;
+        }
+        Debug.Log("This is true");
+        return true;
     }
 
     //pawn pormotion
@@ -632,4 +632,20 @@ public class Board : MonoBehaviour
 
         return p;
     }
+
+    public void IllegalMoveReset() 
+    {
+        //player turn already reset
+        GameObject gO = getCurrentPiece();
+
+        //move gameObject back to old position
+
+        //get the piece that was deleted and put it back on board
+
+        //
+
+        //update the chess array with old position again
+        //updateChessArray();
+    }
+
 }

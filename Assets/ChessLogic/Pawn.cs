@@ -210,6 +210,7 @@ public class Pawn : Pieces
         return false;
     }
 
+    //handels pawn promotion after piece reached other side
     public void PawnPromotion(Board boardScript, Pieces pieceCS, Vector3 pos)
     {
         Debug.Log("Pawn promotion");
