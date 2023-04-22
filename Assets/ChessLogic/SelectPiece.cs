@@ -260,8 +260,8 @@ public class SelectPiece : MonoBehaviour
             //check if any piece on board puts either king in check
             Vector3 whiteKPos = new Vector3((float)wK.currentXPos, 0f, (float)wK.currentZPos);
             Vector3 blackPos = new Vector3((float)bK.currentXPos, 0f, (float)bK.currentZPos);
-            bool hasCheckOccurredWhite = boardScript.IsMoveACheckPos(whiteKPos, boardScript, wK, 1);
-            bool hasCheckOccurredBlack = boardScript.IsMoveACheckPos(blackPos, boardScript, bK, 1);
+            bool hasCheckOccurredWhite = boardScript.IsMoveACheckPosForKing(whiteKPos, boardScript, wK, 1);
+            bool hasCheckOccurredBlack = boardScript.IsMoveACheckPosForKing(blackPos, boardScript, bK, 1);
             if (hasCheckOccurredWhite)
             {
                 wK.SetInCheck(true);
@@ -292,11 +292,11 @@ public class SelectPiece : MonoBehaviour
         }
 
         //illegal move put own king in Check
-            Debug.Log(bK.GetInCheck());
+        /*    Debug.Log(bK.GetInCheck());
             Debug.Log(wK.GetInCheck());
             if(boardScript.getPlayerTurn() && bK.GetInCheck())
             {
-                string message = "Illegal move, piece Put King in check";
+                string message = "Illegal move, piece Own Put King in check";
                 GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
                 TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
                 scriptToUser.ShowTextMessageToUser(message);
@@ -304,11 +304,16 @@ public class SelectPiece : MonoBehaviour
             }
             else if(!boardScript.getPlayerTurn() && wK.GetInCheck())
             {
-                string message = "Illegal move, piece Put King in check";
+                string message = "Illegal move, piece Own Put King in check";
                 GameObject textToUpdate = GameObject.FindWithTag("messageToUser");
                 TextOutToUser scriptToUser = textToUpdate.GetComponent<TextOutToUser>();
                 scriptToUser.ShowTextMessageToUser(message);
                 RerouteToEnd(0);
+            }*/
+
+            if(!wK.GetInCheck() && !bK.GetInCheck())
+            {
+                //see if white has any moves left and black has any moves left, reroute to stalemate screen
             }
     }
 

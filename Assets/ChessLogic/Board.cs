@@ -349,7 +349,65 @@ public class Board : MonoBehaviour
         gameObject.GetComponent<MeshRenderer>().material = tileMaterials[1];
     }
 
-    public bool IsMoveACheckPos(Vector3 position, Board boardScript, Pieces kScript, int counter)
+    public bool IsMoveACheckPosNormal(Vector3 positionToMoveTo, Board boardScript,  Pieces pieceScript, Pieces kScript, Vector3 kPos)
+    {
+        //get instance of king based
+        
+        bool holdResultTemp = false;
+
+        Pieces[,] piecesOnBoard = boardScript.getChessArray();
+        //move pieceFrom current position to new position in array.
+        piecesOnBoard[(int)positionToMoveTo.x, (int)positionToMoveTo.z] = pieceScript;
+        piecesOnBoard[pieceScript.currentXPos,pieceScript.currentZPos] = null;
+
+        Vector3 position;
+        List<Vector3> movesToBeChecked = new List<Vector3>();
+
+        for(int i =0; i < 8; i++) 
+        {
+            for(int j =0; j < 8; j++) 
+            {
+                Pieces piece = piecesOnBoard[i,j];
+
+                if (pieceScript.team != piece.team && piece.ptype != PieceType.King)
+                {
+                    if (piece.ptype == PieceType.Pawn)
+                    {
+                        Pawn pawn = piece.GetComponent<Pawn>();
+                        GameObject gO = pawn.gameObject;
+                        movesToBeChecked = pawn.pawnMoveRules(boardScript, gO, 1);//value 1 here allow to simulate a piece at this position
+
+                        for (int k = 0; k < movesToBeChecked.Count; k++)
+                        {
+                            position = movesToBeChecked[k];
+                            if (kPos == position)
+                            {
+                                holdResultTemp = true;
+                            }
+                        }
+                    }
+                    else 
+                    {
+                    GameObject gO = piece.gameObject;
+                        movesToBeChecked = piece.Rules(gO);
+
+                        for (int k = 0; k < movesToBeChecked.Count; k++)
+                        {
+                            position = movesToBeChecked[k];
+                            if (kPos == position)
+                            {
+                                holdResultTemp = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return holdResultTemp;
+    }
+
+    public bool IsMoveACheckPosForKing(Vector3 position, Board boardScript, Pieces kScript, int counter)
     {
         GameObject gO; Pieces piece;
         Vector3 movePos;
@@ -400,7 +458,6 @@ public class Board : MonoBehaviour
                         }
                     }
                 }
-
             }
         }
         //return false;
@@ -485,7 +542,7 @@ public class Board : MonoBehaviour
                 //if()//any positions match the attacking pieces position
                 for (int j = 0; j < currentlyCheckingKing.Count; j++)
                 {
-                    Vector3 checkPiecePos = new Vector3((float)currentlyCheckingKing[i].currentXPos, 0f, (float)currentlyCheckingKing[i].currentZPos);
+                    Vector3 checkPiecePos = new Vector3((float)currentlyCheckingKing[j].currentXPos, 0f, (float)currentlyCheckingKing[j].currentZPos);
                     if (checkPiecePos == tempMoves[i])
                     {
                         pieceMoves.Add(checkPiecePos);
@@ -555,17 +612,22 @@ public class Board : MonoBehaviour
         return allMoveOptionsStuff;
     }
 
-    public Pieces spawnPawnPromotion(PieceType ptype, int team, Vector3 temp)
+    //pawn pormotion
+    public Pieces spawnPawnPromotion(PieceType ptype, int team, Vector3 positionOfPawn)
     {
-        Pieces p = Instantiate(prefabs[(int)ptype-1], temp, Quaternion.identity).GetComponent<Pieces>();
+        //Pieces p = Instantiate(prefabs[(int)ptype-1], temp, Quaternion.identity).GetComponent<Pieces>();
+
+        Pieces p = Instantiate(prefabs[(int)ptype-1], positionOfPawn, Quaternion.identity).GetComponent<Pieces>();
+
+        p.ptype = ptype;
+        p.team = team;
 
         if(p.team == 0)
         {
             p.transform.Rotate(0, 180, 0);
         }
-
-        p.ptype = ptype;
-        p.team = team;
+        p.currentXPos = (int)positionOfPawn.x;
+        p.currentZPos = (int)positionOfPawn.z;
         p.GetComponent<MeshRenderer>().material = teamMaterials[team];
 
         return p;

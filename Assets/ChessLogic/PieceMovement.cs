@@ -237,8 +237,8 @@ public class PieceMovement : MonoBehaviour
             //check if any piece on board puts either king in check
             Vector3 whiteKPos = new Vector3((float)wK.currentXPos, 0f, (float)wK.currentZPos);
             Vector3 blackPos = new Vector3((float)bK.currentXPos, 0f, (float)bK.currentZPos);
-            bool hasCheckOccurredWhite = boardScript.IsMoveACheckPos(whiteKPos, boardScript, wK, 1);
-            bool hasCheckOccurredBlack = boardScript.IsMoveACheckPos(blackPos, boardScript, bK, 1);
+            bool hasCheckOccurredWhite = boardScript.IsMoveACheckPosForKing(whiteKPos, boardScript, wK, 1);
+            bool hasCheckOccurredBlack = boardScript.IsMoveACheckPosForKing(blackPos, boardScript, bK, 1);
             if (hasCheckOccurredWhite)
             {
                 wK.SetInCheck(true);

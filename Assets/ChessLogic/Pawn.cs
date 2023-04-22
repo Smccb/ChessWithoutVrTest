@@ -221,20 +221,20 @@ public class Pawn : Pieces
         //SpawnOnePiece
         Pieces temp;
 
-        Vector3 vec = new Vector3((float)pos.x,0f, (float)pos.z);
+        Vector3 positionOfPawn = new Vector3((float)pos.x,0f, (float)pos.z);
         //Pieces piece = Instantiate(prefabs[(int)ptype-1], gameObject.transform).GetComponent<Pieces>();
         if(pieceCS.team == 1)
         {
-            temp = boardScript.spawnPawnPromotion(PieceType.Queen, 1,vec);
+            temp = boardScript.spawnPawnPromotion(PieceType.Queen, 1,positionOfPawn);
         }
         else
         {
-            temp = boardScript.spawnPawnPromotion(PieceType.Queen, 0, vec);
+            temp = boardScript.spawnPawnPromotion(PieceType.Queen, 0, positionOfPawn);
         }
         //Pieces[,] p = boardScript.getChessArray();
 
         promotionSC = temp;
-        boardScript.updateChessArray(vec, 1);
+        boardScript.updateChessArray(positionOfPawn, 1);
     }
 
     public Pieces GetPromotion() 
